@@ -11,6 +11,7 @@ import { addColor } from "../features/Colors";
 import {Leva, useControls} from 'leva'
 
 
+
 function Visualizer({ guitarsList }) {
   const [selectGuitar, setSelectGuitar] = useState("");
 
@@ -96,6 +97,7 @@ function Visualizer({ guitarsList }) {
 
           <ambientLight intensity={1} />
           <Modelos  status={status} />
+        
         </Canvas>
         {/* <Picker /> */}
         <Leva

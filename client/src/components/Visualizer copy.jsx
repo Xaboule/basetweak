@@ -8,13 +8,13 @@ import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
 import { useSnapshot } from "valtio";
 import { HexColorPicker } from "react-colorful";
 import { useControls } from "leva";
-
+import {Perf} from "r3f-perf"
 function Modelos({ status}) {
   const state = status;
   const ref = useRef();
   const snap = useSnapshot(state);
   const [hovered, set] = useState(null);
-  const { nodes, materials } = useGLTF("/guitar/335full.glb");
+  const { nodes, materials } = useGLTF("/guitar/335full2.glb");
 
 
   // const debouncedApply = debounce((color) => { applyColor(color) }, 1000)
@@ -149,7 +149,7 @@ const controls = useControls({
 
 
 
-materials.varnish = new THREE.MeshPhysicalMaterial({ transparent:true, opacity:0.2, roughness: 0.01, metalness: controls.gloss})
+materials.varnish = new THREE.MeshStandardMaterial({ transparent:true, opacity:0.2, roughness: 0.01, metalness: controls.gloss})
 materials.metalpieces.metalness = 1,
 materials.metalpieces.roughness = 0,
 materials.pickup_cover.metalness = 1,
@@ -176,7 +176,9 @@ const reactMap = useTexture("/wood.jpg")
       console.log(e)
         )}
     >
-
+  <Perf
+          deepAnalyze
+          />
 
  <mesh
         castShadow
@@ -211,7 +213,7 @@ const reactMap = useTexture("/wood.jpg")
         
       >
         <Decal mesh={ref} >
-           <meshPhysicalMaterial
+           <meshStandardMaterial
              roughness={0.2}
              transparent
              depthTest={false}
