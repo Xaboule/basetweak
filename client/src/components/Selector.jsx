@@ -52,20 +52,31 @@ body, neck, pickup1, pickup2
   }, []);
 
 
- 
+  const [isHover, setIsHover] = useState(false);
 
-
+  const [animation, setAnimation] = useState(false);
 
 const handleModelSelect = (e) => {
+
   setModel(e.target.value)
+  setAnimation(true)
 }
 console.log(model)
 
 
+useEffect(() => {
+  if (animation) {
+    // Perform animation logic here
+    console.log('PROUTUUUUUUTUTUTUTUTUTUTU')
+  }
+}, [animation]);
+
   return (
     <div className="main-select"> 
      <div className="buttonselect">
-   <button value="1" onClick={(e) => handleModelSelect(e)}>ES-335</button>
+   <button value="1" 
+  //  onPointerOver={(e) =>  {e.preventDefault(), setIsHover(!isHover)}}
+    onClick={(e) => handleModelSelect(e)}>ES-335</button>
    <button value="2" onClick={(e) => handleModelSelect(e)}>Telecaster</button>
    </div>
       {/* <div className="selector-section">
@@ -87,7 +98,7 @@ console.log(model)
       </div>
    </div> */}
    <div className="visu-sum">
-   <Visualizer guitarsList={guitarsList} model={model} setModel={setModel}/>
+   <Visualizer guitarsList={guitarsList} model={model} setModel={setModel} animation={animation}/>
    {/* <div className="list-sum">
 
       <div className="item-price">

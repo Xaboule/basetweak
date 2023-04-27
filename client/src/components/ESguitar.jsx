@@ -34,24 +34,18 @@ function ESguitar({
 
   const triggs = useSelector((state) => state.guitar_set.dropped);
 
-
-
   const [scratches, scratchesrough] = useTexture([
     "guitar/imgs/DefaultMaterial_Roughness2.jpg",
     "guitar/imgs/DefaultMaterial_Roughness2-INV.jpg",
   ]);
-  // const texture_path = useSelector(
-  //   (state) => state.guitar_set.colorSet.texture_path
-  // );
-  const texture_path = colorList.texture_path
+
+  const texture_path = colorList.texture_path;
   const [txUse, setTxUse] = useState(path + texture_path);
 
   const reactMap = useTexture(txUse);
 
   const woodFull = useTexture("woodFullminH.png");
   woodFull.flipY = false;
-
-
 
   const woodMat = new THREE.MeshLambertMaterial({
     map: woodFull,
@@ -84,65 +78,47 @@ function ESguitar({
     (materials.pickup_cover.metalness = 1),
     (materials.pickup_cover.roughness = 0);
 
+  woodFull.encoding = sRGBEncoding;
 
-  woodFull.encoding = sRGBEncoding
-  
-  materials.tablefront.opacity = 1 - (colorList.wood/1000) 
+  materials.tablefront.opacity = 1 - colorList.wood / 1000;
 
-  materials.tableback.opacity = 1 - (colorList.wood/1000) 
+  materials.tableback.opacity = 1 - colorList.wood / 1000;
 
-  materials.side.opacity = 1 - (colorList.wood/1000) 
+  materials.side.opacity = 1 - colorList.wood / 1000;
 
-  materials.neckwood.opacity = 1 - (colorList.wood/1000) 
-// materials.tablefront.metalness = .5
-materials.tablefront.roughness = 1
-materials.tableback.roughness = 1
-materials.side.roughness = 1
-materials.neckwood.roughness = 1
+  materials.neckwood.opacity = 1 - colorList.wood / 1000;
 
+  materials.tablefront.roughness = 1;
+  materials.tableback.roughness = 1;
+  materials.side.roughness = 1;
+  materials.neckwood.roughness = 1;
 
+  const maple = useTexture("maple.png");
+  maple.flipY = false;
+  const rosewood = useTexture("rosewood.png");
+  rosewood.flipY = false;
+  rosewood.encoding = sRGBEncoding;
 
-const maple = useTexture('maple.png')
-maple.flipY = false
-const rosewood = useTexture('rosewood.png')
-rosewood.flipY = false
-rosewood.encoding = sRGBEncoding
-
-
-
-materials.fretboard.map = rosewood
-
-
-
-
-
-  // useLayoutEffect(() => {
-  //   console.log("pipi");
-  //   console.log(texture_path);
-  //   setTxUse(path + texture_path);
-  // }, [triggs]);
+  materials.fretboard.map = rosewood;
 
   useFrame(() => {
     meshRefs.current.forEach((mesh) => {
       mesh.material = mesh.material.clone();
-
     });
   });
-
 
   return (
     <>
       <group rotation={tilt} position={pos}>
         <group
-  //  dispose={[nodes, materials]}
+          //  dispose={[nodes, materials]}
           dispose={null}
           ref={ref}
           position={[0, -0.5, 0]}
           scale={2}
-  
         >
           <mesh
-          ref={(mesh) => (meshRefs.current[0] = mesh)}
+            ref={(mesh) => (meshRefs.current[0] = mesh)}
             castShadow
             receiveShadow
             geometry={nodes.side.geometry}
@@ -151,7 +127,7 @@ materials.fretboard.map = rosewood
           />
 
           <mesh
-          ref={(mesh) => (meshRefs.current[1] = mesh)}
+            ref={(mesh) => (meshRefs.current[1] = mesh)}
             castShadow
             receiveShadow
             geometry={nodes.binding.geometry}
@@ -159,56 +135,51 @@ materials.fretboard.map = rosewood
             material-color={colorList.binding}
           />
           <mesh
-ref={(mesh) => (meshRefs.current[2] = mesh)}
+            ref={(mesh) => (meshRefs.current[2] = mesh)}
             receiveShadow
             geometry={nodes.tableback.geometry}
             material={materials.tableback}
             material-color={colorList.tableback}
           />
           <mesh
-         ref={(mesh) => (meshRefs.current[3] = mesh)}
+            ref={(mesh) => (meshRefs.current[3] = mesh)}
             receiveShadow
             geometry={nodes.tablefront.geometry}
             material={materials.tablefront}
             material-color={colorList.tablefront}
-
           ></mesh>
           {/* WOOOOOOOOOOOOOOOOD */}
           <mesh
-                   ref={(mesh) => (meshRefs.current[4] = mesh)}
+            ref={(mesh) => (meshRefs.current[4] = mesh)}
             receiveShadow
             geometry={nodes.tablefront.geometry}
             material={woodMat}
-
           ></mesh>
-                    <mesh
-                             ref={(mesh) => (meshRefs.current[5] = mesh)}
+          <mesh
+            ref={(mesh) => (meshRefs.current[5] = mesh)}
             castShadow
             receiveShadow
             geometry={nodes.side.geometry}
             material={woodMat}
-
           />
 
-     
-     
           <mesh
-                   ref={(mesh) => (meshRefs.current[6] = mesh)}
+            ref={(mesh) => (meshRefs.current[6] = mesh)}
             // castShadow            receiveShadow
             geometry={nodes.tableback.geometry}
             material={woodMat}
             // material-color={colorList.tableback}
           />
-              {/* WOOOOOOOOOOOOOOOOD */}
+          {/* WOOOOOOOOOOOOOOOOD */}
           <mesh
-         ref={(mesh) => (meshRefs.current[7] = mesh)}
+            ref={(mesh) => (meshRefs.current[7] = mesh)}
             receiveShadow
             geometry={nodes.inlay.geometry}
             material={materials.inlay}
             material-color={colorList.inlay}
           />
           <mesh
-                   ref={(mesh) => (meshRefs.current[8] = mesh)}
+            ref={(mesh) => (meshRefs.current[8] = mesh)}
             castShadow
             receiveShadow
             geometry={nodes.jackinput.geometry}
@@ -216,21 +187,21 @@ ref={(mesh) => (meshRefs.current[2] = mesh)}
             material-color={colorList.metalpieces}
           />
           <mesh
-         ref={(mesh) => (meshRefs.current[9] = mesh)}
+            ref={(mesh) => (meshRefs.current[9] = mesh)}
             receiveShadow
             geometry={nodes.fretbinding.geometry}
             material={materials.fretbinding}
             material-color={colorList.fretbinding}
           />
           <mesh
-         ref={(mesh) => (meshRefs.current[10] = mesh)}
+            ref={(mesh) => (meshRefs.current[10] = mesh)}
             receiveShadow
             geometry={nodes.fretboard.geometry}
             material={materials.fretboard}
             material-color={colorList.fretboard}
           />
           <mesh
-                   ref={(mesh) => (meshRefs.current[11] = mesh)}
+            ref={(mesh) => (meshRefs.current[11] = mesh)}
             castShadow
             receiveShadow
             geometry={nodes.frets.geometry}
@@ -238,7 +209,7 @@ ref={(mesh) => (meshRefs.current[2] = mesh)}
             material-color={colorList.frets}
           />
           <mesh
-                   ref={(mesh) => (meshRefs.current[12] = mesh)}
+            ref={(mesh) => (meshRefs.current[12] = mesh)}
             castShadow
             receiveShadow
             geometry={nodes.knobs.geometry}
@@ -246,7 +217,7 @@ ref={(mesh) => (meshRefs.current[2] = mesh)}
             material-color={colorList.knobs}
           />
           <mesh
-                   ref={(mesh) => (meshRefs.current[13] = mesh)}
+            ref={(mesh) => (meshRefs.current[13] = mesh)}
             castShadow
             receiveShadow
             geometry={nodes.nut.geometry}
@@ -254,23 +225,21 @@ ref={(mesh) => (meshRefs.current[2] = mesh)}
             material-color={colorList.nut}
           />
           <mesh
-                   ref={(mesh) => (meshRefs.current[14] = mesh)}
+            ref={(mesh) => (meshRefs.current[14] = mesh)}
             castShadow
-
             geometry={nodes.neckwood.geometry}
             material={materials.neckwood}
             material-color={colorList.neckwood}
           />
-               <mesh
-                        ref={(mesh) => (meshRefs.current[15] = mesh)}
+          <mesh
+            ref={(mesh) => (meshRefs.current[15] = mesh)}
             castShadow
             receiveShadow
             geometry={nodes.neckwood.geometry}
             material={woodMat}
-
           />
           <mesh
-                   ref={(mesh) => (meshRefs.current[16] = mesh)}
+            ref={(mesh) => (meshRefs.current[16] = mesh)}
             castShadow
             receiveShadow
             geometry={nodes.pickup_cover.geometry}
@@ -278,7 +247,7 @@ ref={(mesh) => (meshRefs.current[2] = mesh)}
             material-color={colorList.pickup_cover}
           />
           <mesh
-                   ref={(mesh) => (meshRefs.current[17] = mesh)}
+            ref={(mesh) => (meshRefs.current[17] = mesh)}
             castShadow
             receiveShadow
             geometry={nodes.pickup_ring.geometry}
@@ -286,7 +255,7 @@ ref={(mesh) => (meshRefs.current[2] = mesh)}
             material-color={colorList.pickup_ring}
           />
           <mesh
-                   ref={(mesh) => (meshRefs.current[18] = mesh)}
+            ref={(mesh) => (meshRefs.current[18] = mesh)}
             castShadow
             receiveShadow
             geometry={nodes.mechs.geometry}
@@ -294,7 +263,7 @@ ref={(mesh) => (meshRefs.current[2] = mesh)}
             material-color={colorList.metalpieces}
           />
           <mesh
-                   ref={(mesh) => (meshRefs.current[19] = mesh)}
+            ref={(mesh) => (meshRefs.current[19] = mesh)}
             castShadow
             receiveShadow
             geometry={nodes.selector.geometry}
@@ -302,7 +271,7 @@ ref={(mesh) => (meshRefs.current[2] = mesh)}
             material-color={colorList.metalpieces}
           />
           <mesh
-                   ref={(mesh) => (meshRefs.current[20] = mesh)}
+            ref={(mesh) => (meshRefs.current[20] = mesh)}
             castShadow
             receiveShadow
             geometry={nodes.tail_saddle.geometry}
@@ -310,7 +279,7 @@ ref={(mesh) => (meshRefs.current[2] = mesh)}
             material-color={colorList.metalpieces}
           />
           <mesh
-                   ref={(mesh) => (meshRefs.current[21] = mesh)}
+            ref={(mesh) => (meshRefs.current[21] = mesh)}
             castShadow
             receiveShadow
             geometry={nodes.pickup_screws.geometry}
@@ -319,24 +288,21 @@ ref={(mesh) => (meshRefs.current[2] = mesh)}
         </group>
         <group position={[0, -0.5, 0]} dispose={null} scale={2}>
           <mesh
-         ref={(mesh) => (meshRefs.current[22] = mesh)}
+            ref={(mesh) => (meshRefs.current[22] = mesh)}
             geometry={nodes.UN_inside.geometry}
             material={materials.un_black}
-
           />
           <mesh
-                   ref={(mesh) => (meshRefs.current[23] = mesh)}
+            ref={(mesh) => (meshRefs.current[23] = mesh)}
             castShadow
-
             geometry={nodes.strings.geometry}
             material={materials.strings}
           />
 
           <mesh
-         ref={(mesh) => (meshRefs.current[24] = mesh)}
+            ref={(mesh) => (meshRefs.current[24] = mesh)}
             geometry={nodes.varnish.geometry}
             material={materials.varnish}
-
           />
         </group>
       </group>

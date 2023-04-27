@@ -16,15 +16,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { dropTrigger, addColor } from "../features/Colors";
 import { LinearEncoding, sRGBEncoding } from "three";
 import materials from './materials'
+import { useSpring,animated, useTransition } from "@react-spring/three";
 
 function Teleguitar({
   trig,
   setColorList,
   colorList,
-  clickedPart,
-  setClickedPart,
   tilt,
   pos,
+  animation
 }) {
   const tele = useRef();
   const meshRefs = useRef([]);
@@ -131,10 +131,15 @@ materials.varnish = new THREE.MeshStandardMaterial({
     });
   });
 
-console.log(woodMatTele)
+  const springProps = useSpring({
+    to: { opacity: animation ? 1 : 0.5, scale: animation ? 4 : 0.1 },
+    config: { mass: 1, tension: 120, friction: 14 },
+  });
 
   return (
     <>
+    <animated.mesh scale={springProps.transform}>
+ 
       <group rotation={tilt} position={pos}
     //    dispose={[nodes, materials]}
     dispose={null}
@@ -341,6 +346,7 @@ console.log(woodMatTele)
 
     </group>
     </group>
+    </animated.mesh>
     </>
   );
 }

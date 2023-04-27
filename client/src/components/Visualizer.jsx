@@ -16,15 +16,16 @@ import Tweaker from "./Tweaker/Tweaker";
 import TweakerTele from "./Tweaker/TweakerTele";
 import ESguitar from "./ESguitar";
 import Teleguitar from "./Teleguitar";
+import { motion } from "framer-motion-3d";
+import { MotionConfig } from "framer-motion";
+import { transition } from "./trans";
 
-function Visualizer({ guitarsList, model, setModel }) {
+function Visualizer({ guitarsList, model, setModel, animation }) {
   const colus = useSelector((state) => state.guitar_set.colorSet);
   const triggs = useSelector((state) => state.guitar_set.dropped);
 
   const [colorList, setColorList] = useState(colus);
-  // const [col335, setCol335] = useState(colorList.es335)
-  // const [colTele, setColTele] = useState(colorList.telecaster)
-  const [clickedPart, setClickedPart] = useState("");
+
   const [gtrName, setGtrName] = useState("");
   const [dropped, setDropped] = useState(0);
   const dispatch = useDispatch();
@@ -34,7 +35,6 @@ function Visualizer({ guitarsList, model, setModel }) {
     );
     await setColorList(chosen[0].parts);
     setModel(chosen[0].parts.guitar_id);
-    // console.log(colorList)
   };
 
   const addGuitar = () => {
@@ -62,7 +62,7 @@ function Visualizer({ guitarsList, model, setModel }) {
       pickguard: colorList.pickguard,
       single_plastic: colorList.single_plastic,
       single_metal: colorList.single_metal,
-      backplate: colorList.backplate
+      backplate: colorList.backplate,
     });
   };
 
@@ -89,22 +89,17 @@ function Visualizer({ guitarsList, model, setModel }) {
           fallback={null}
           camera={{ position: [0, 2, 3], fov: 60 }}
           // shadows ={{type : PCFSoftShadowMap}}
-    linear
+          linear
           shadows
           dpr={[1, 2]}
-          // linear
           gl={{
             preserveDrawingBuffer: true,
             antialias: true,
             alpha: true,
           }}
-          onPointerOut={() => setTimeout(() => setClickedPart(""), 2000)}
         >
           <OrbitControls target={[0, 1, 0]} enableZoom={false} />
-          <Environment 
-          // preset="city"
-                    files='/decor_shop_2k.hdr'
-           blur={2} />
+          <Environment files="/decor_shop_2k.hdr" blur={2} />
 
           <ambientLight intensity={0.4} />
           <directionalLight
@@ -129,8 +124,7 @@ function Visualizer({ guitarsList, model, setModel }) {
             <ESguitar
               setColorList={setColorList}
               colorList={colorList}
-              clickedPart={clickedPart}
-              setClickedPart={setClickedPart}
+              animation={animation}
               tilt={[-Math.PI / 7, -0.2, -Math.PI * 0.3]}
               pos={[-1, -0.2, -0.3]}
             />
@@ -139,8 +133,7 @@ function Visualizer({ guitarsList, model, setModel }) {
             <Teleguitar
               setColorList={setColorList}
               colorList={colorList}
-              clickedPart={clickedPart}
-              setClickedPart={setClickedPart}
+              animation={animation}
               tilt={[-Math.PI / 7, -0.2, -Math.PI * 0.3]}
               pos={[-1, -0.2, -0.3]}
             />
@@ -148,27 +141,17 @@ function Visualizer({ guitarsList, model, setModel }) {
 
           <Perf deepAnalyze={true} position={"top-left"} />
         </Canvas>
-        {/* <MyDropzone
-          colorList={colorList}
-          setColorList={setColorList}
-          setDropped={setDropped}
-          dropped={dropped}
-        /> */}
-     {model == 1 && (   <Tweaker
-          colorList={colorList}
-          setColorList={setColorList}
-          clickedPart={clickedPart}
-        />)}
-             {model == 2 && (   <TweakerTele
-          colorList={colorList}
-          setColorList={setColorList}
-          clickedPart={clickedPart}
-        />)}
+
+        {model == 1 && (
+          <Tweaker colorList={colorList} setColorList={setColorList} />
+        )}
+        {model == 2 && (
+          <TweakerTele colorList={colorList} setColorList={setColorList} />
+        )}
       </div>
       <div id="select-guitarset">
         <input type="text" onChange={(e) => setGtrName(e.target.value)}></input>{" "}
         <button
-          // style={{ position: "absolute" }}
           onClick={(e) => (e.stopPropagation(), addGuitar())}
         >
           Save this guitar
