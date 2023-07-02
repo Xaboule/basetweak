@@ -167,7 +167,6 @@ const guitarToCart = (req, res) => {
   db.query(sqlInsert, cartGtrId, (err, result) => {
     res.sendStatus(200)
   })
-console.log('REQQQQQ', req.body)
 
 }
 

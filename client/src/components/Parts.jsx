@@ -29,11 +29,14 @@ function Parts() {
   const cartItems = Object.values(cartItemsObj).filter(
     (item) => item && item !== null
   );
+  // console.log(cartItems)
   const getItems = () => {
     axios.get(`${import.meta.env.VITE_BACKEND_URL}/items`, {}).then((res) => {
       setItemsList(res.data);
     });
   };
+
+  console.log(itemsList)
 
   const toPascalCase = (str) =>
     (str.match(/[a-zA-Z0-9]+/g) || [])

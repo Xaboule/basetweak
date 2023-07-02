@@ -6,7 +6,7 @@ export const ShopContext = createContext([]);
 export const ShopContextProvider = (props) => {
   const cartItemsObj = useSelector((state) => state.cart_items.cartItems);
   const cartItems = Object.values(cartItemsObj).filter((item) => item !== null);
-  const cartGuitars = useSelector((state) => state.cart_items.cartGuitars)
+  // const cartGuitars = useSelector((state) => state.cart_items.cartGuitars)
   const dispatch = useDispatch();
 
   const addToCart = (item) => {
@@ -17,28 +17,28 @@ export const ShopContextProvider = (props) => {
     dispatch(cartRemove(item));
   };
 
+  const addGuitarToCart = (guitarToAdd) => {
+    dispatch(addCustomToCart(guitarToAdd))
+  }
   const getCartAmount = () => {
     let totalAmount = 0;
     if (cartItems.length >= 1) {
       for (const itemId in cartItems) {
         const cartItem = cartItems[itemId];
-
+// console.log('ITEMS', cartItem)
         if (cartItem && cartItem.item) {
           const item = cartItem.item;
           totalAmount += cartItem.qty * item.price;
         }
       }
-    }else if (cartGuitars.length >= 1) {
-      totalAmount = totalAmount + cartGuitars.gtrPriceFullVar
-    } else if (cartGuitars.length <= 0 && cartItems.length <= 0) {
+    }
+
+    else if (cartItems.length <= 0) {
       totalAmount = 0;
     }
     return totalAmount;
   };
 
-  const addGuitarToCart = (guitarToAdd) => {
-    dispatch(addCustomToCart(guitarToAdd))
-  }
 
   const contextValue = { cartItems, addToCart, removeFromCart, getCartAmount, addGuitarToCart };
   return (

@@ -15,7 +15,7 @@ function Cart() {
   const cartGuitars = Object.values(cartGuitarsObj).filter(item => item && item !== null);
   const toPascalCase = str => (str.match(/[a-zA-Z0-9]+/g) || []).map(w => `${w.charAt(0).toUpperCase()}${w.slice(1)}`).join(' ');
 
-
+console.log(cartGuitarsObj)
   return (
     <div>
       {/* <Construction/> */}
@@ -49,7 +49,7 @@ if (itemInfo.item) { // Add this check
   return (
     <div key={itemInfo.id} className="cart-list-item">
       <div className="item-unit">
-        <h2>{toPascalCase(itemInfo.item.name)}</h2>
+        {/* <h2>{toPascalCase(itemInfo.item.name)}</h2> */}
         <p id="unit"> unit: {itemInfo.item.price}€</p>
       </div>
       <div className='cart-actions'>

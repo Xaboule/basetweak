@@ -134,35 +134,11 @@ const dateString = currentDayOfMonth + "-" + (currentMonth + 1) + "-" + currentY
 // console.log(dateString)
 const addGtrToCart = () => {
   const guitarToAdd = {
-        id: model,
-    gtrname: gtrName != null ? gtrName : 'guitar'+ dateString,
-    side: colorList.side,
-    binding: colorList.binding,
-    tablefront: colorList.tablefront,
-    tableback: colorList.tableback,
-    neckwood: colorList.neck,
-    fretboard: colorList.fretboard,
-    fretbinding: colorList.fretbinding,
-    frets: colorList.frets,
-    inlay: colorList.inlay,
-    nut: colorList.nut,
-    metal_pieces: colorList.metal_pieces,
-    pickup_cover: colorList.pickup_cover,
-    pickup_ring: colorList.pickup_ring,
-    knobs: colorList.knobs,
-    texture_path: colorList.texture_path,
-    gloss: colorList.gloss,
-    scratch: colorList.scratch,
-    body: colorList.body,
-    wood: colorList.wood,
-    pickguard: colorList.pickguard,
-    single_plastic: colorList.single_plastic,
-    single_metal: colorList.single_metal,
-    backplate: colorList.backplate,
-  };
-  const gtrAndPrice = {guitarToAdd, gtrPriceFullVar}
- addGuitarToCart(gtrAndPrice)
- ,
+     id: Math.round(Math.sqrt(Date.now())),
+    gtrname: gtrName != '' ? gtrName : 'guitar'+ dateString+ Math.round(Date.now()/10000),
+    price: gtrPriceFullVar
+  }
+ addGuitarToCart(guitarToAdd)
   axios.post(`${import.meta.env.VITE_BACKEND_URL}/items/saveguitar`, {
   id: model,
     gtrname: gtrName != '' ? gtrName : 'guitar'+ dateString,

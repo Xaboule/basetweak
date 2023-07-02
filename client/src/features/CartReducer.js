@@ -37,15 +37,24 @@ initialState,
       },
        clearCart: (state) => {
 
-        state.cartItems = [],
-        state.cartGuitars = []
-
+        state.cartItems = []
        },
        addCustomToCart:(state, action) => {
-        state.cartGuitars = action.payload
-       cartAdd(state.cartGuitars)
-console.log(state.cartGuitars)
-       }
+
+        const itemId = action.payload;
+
+        const itemExists = state.cartItems[itemId.id];
+        if (itemExists) {
+          // If the item already exists in the cart, increment the quantity
+          state.cartItems[itemId.id].qty += 1;
+        } else {
+          // If the item does not exist in the cart, add it with a quantity of 1
+          state.cartItems[itemId.id] = {
+            item: itemId,
+            qty: 1,
+          };
+        }
+       },
   }
   
 });
