@@ -29,7 +29,7 @@ setDropped,
 }) {
   const tele = useRef();
   const meshRefs = useRef([]);
-  const { nodes, materials } = useGLTF("/guitar/TeleOPTPG.glb");
+  const { nodes, materials } = useGLTF("/guitar/TeleOPT3(fretuv)PG.glb");
 
   const path = `${import.meta.env.VITE_BACKEND_URL}/stocked`;
   const tempPath = `${import.meta.env.VITE_BACKEND_URL}/stocked/temporary/`;
@@ -379,5 +379,5 @@ Pickguard:  useTexture( texturesFromReducer.Pickguard ? tempPath + texturesFromR
 }
 
 
-useGLTF.preload("/TeleOPT3.glb");
+useGLTF.preload("/TeleOPT3(fretuv)PG.glb");
 export default Teleguitar;

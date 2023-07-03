@@ -36,7 +36,7 @@ function Parts() {
     });
   };
 
-  console.log(itemsList)
+  // console.log(itemsList)
 
   const toPascalCase = (str) =>
     (str.match(/[a-zA-Z0-9]+/g) || [])

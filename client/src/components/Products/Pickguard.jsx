@@ -10,8 +10,9 @@ function Pickguard(){
            <mesh
         castShadow
         receiveShadow
-        geometry={nodes.pickguard001.geometry}
+        geometry={nodes.pickguard002.geometry}
         material={materials["plastic.002"]}
+        // scale={6}
       />
     </group>
   );
