@@ -20,7 +20,7 @@ function ItemsManager() {
         wage: wage,
       })
       .then(() => {
-        console.log("success");
+
       });
   };
   const getItems = () => {

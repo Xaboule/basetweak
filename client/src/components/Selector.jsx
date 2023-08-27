@@ -62,7 +62,7 @@ function Selector() {
     setChanged(!changed);
   };
 
-  console.log(model)
+
   return (
     <div className="main-select">
       <div className="buttonselect">

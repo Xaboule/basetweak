@@ -84,7 +84,7 @@ const addGuitar = (req, res, next) => {
       responseData.id_guitar = addedId
       responseData.model = modelId
       responseData.name = gtrname
-     console.log(responseData)
+
 
       db.query(
         sqlInsertTex,
@@ -132,7 +132,7 @@ const addGuitar = (req, res, next) => {
       );
     });
   } catch (err) {
-    console.log(err);
+
     res.sendStatus(500);
   }
  
@@ -213,7 +213,7 @@ db.query(sqlSelect, [user, gtr], (err, result) => {
 const fetchGuitarColors = (req, res) => {
 
   const gtr = req.query.gtr;
-console.log(gtr)
+
   const sqlSelect = `SELECT composition.*, parts.name from composition
   INNER JOIN parts ON composition.id_part = parts.id
   WHERE id_guitar = ?`;
@@ -232,8 +232,6 @@ console.log(gtr)
           return res.sendStatus(500); // Send error status if there's an error
         }
 
-        console.log('PIOUPIOU',compositionResult);
-        console.log(modelResult);
 
         // Send the response with the results
         res.status(200).json({

@@ -70,7 +70,7 @@ export default function Registration({
           const user_info = response.data.otherData[0];
           const user_guitars = response.data.guitars;
           localStorage.setItem("token", response.data.token);
-          console.log(user_guitars)
+  
           setLoginStatus(true);
           dispatch(userIn({ user, user_info, user_guitars }));
           loginContext();

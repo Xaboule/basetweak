@@ -333,6 +333,7 @@ align-items: flex-start;
     align-items: center;
     border: black solid 2px;
     background-image: url('../../assets/img/fretbg-min.png');
+    background-position-y: center;
     border-radius: 12px;
     justify-content: center;
 
@@ -350,7 +351,8 @@ align-items: flex-start;
  /* left: 0; */
  /* display: flex; */
  /* position: relative; */
- margin:2vw auto 
+ margin:2vw auto  ;
+  
 }
  
 

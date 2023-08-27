@@ -159,7 +159,7 @@ function Visualizer({  model, gtrPrice }) {
     axios
       .post(`${import.meta.env.VITE_BACKEND_URL}/items/saveguitar`, guitarData)
       .then((response) => {
-        console.log(response.data)
+  
         const gtrToAdd = {
           id: response.data.id_guitar,
           model : response.data.model,
@@ -169,7 +169,6 @@ function Visualizer({  model, gtrPrice }) {
         }
         dispatch(userGuitarsSave(gtrToAdd));
       });
-      // axios.post(`${import.meta.env.VITE_BACKEND_URL}/items/savetexture`, textureData)
   };
 
   useEffect(() => {}, [model, theme]);

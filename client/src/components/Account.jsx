@@ -56,11 +56,11 @@ function Account() {
     }
   }, [isAuthenticated]);
 
-console.log(userGtrs)
+
 
   const handleSelectGuitar = async (item) => {
     const gtr = item.id;
-    console.log(item)
+
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/items/fetchguitarcolors`, {
         params: { gtr: gtr },
@@ -70,9 +70,9 @@ console.log(userGtrs)
         const fetched = res.data.composition;
         const fetchedModel = res.data.model[0].model
   
-        console.log(res.data)
+  
         const colorObject = {};
-        console.log(fetchedModel)
+
         fetched.forEach((item) => {
           colorObject[item.name] = item.color;
         });
@@ -87,25 +87,17 @@ console.log(userGtrs)
           acc.scratch = parseInt(item.scratch, 10);
 
           if (item.id_texture !== "stocked/HD_transparent_picture.png") {
-            // axios
-            //   .get(`${import.meta.env.VITE_BACKEND_URL}/items/fetchtextures`, {
-            //     params: { txID: item.id_texture },
-            //   })
-            //   .then((tex) => {
-            //     console.log(tex.data);
-            //     txPath = tex.data[0].path;
-            //     return (acc.texture_path = txPath);
-            //   });
+      
           } else acc.texture_path = "stocked/HD_transparent_picture.png";
 
           return acc;
         }, {});
 
-        // setModel(fetched[0].model);
-console.log(object)
 
-        dispatch(addColor(object));
-      });
+
+        
+      }).then(() => {dispatch(addColor(object))}
+      )
   };
 
   const [editMode, setEditMode] = useState(false);
@@ -220,7 +212,7 @@ console.log(object)
 
 
   const itemTemplate = (item) => {
-    console.log(item)
+  
     return (
       <div className="guitars-all">
         <div
@@ -425,7 +417,7 @@ console.log(object)
                     label="Confirm"
                     icon="pi pi-exclamation-triangle"
                     accept={accept}
-                    reject={() => console.log("rejjjje")}
+                    reject={''}
                   />
                   <button
                     id="delete-account"
