@@ -5,7 +5,7 @@ import "./css/account.css";
 
 import { useDispatch, useSelector } from "react-redux";
 import { userOut, userGuitarsSave, userUpdate, userGuitarDelete } from "../features/UserReducer";
-import { SignOut, Trash } from "@phosphor-icons/react";
+import { PencilLine, SignOut, Trash } from "@phosphor-icons/react";
 import { addColor, triggerDrop, resetDrop } from "../features/ColorReducer";
 import { Toast } from "primereact/toast";
 import { Carousel } from "primereact/carousel";
@@ -56,11 +56,11 @@ function Account() {
     }
   }, [isAuthenticated]);
 
-
+console.log(userGtrs)
 
   const handleSelectGuitar = async (item) => {
     const gtr = item.id;
-
+    console.log(item)
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/items/fetchguitarcolors`, {
         params: { gtr: gtr },
@@ -70,9 +70,9 @@ function Account() {
         const fetched = res.data.composition;
         const fetchedModel = res.data.model[0].model
   
-  
+        console.log(res.data)
         const colorObject = {};
-
+        console.log(fetchedModel)
         fetched.forEach((item) => {
           colorObject[item.name] = item.color;
         });
@@ -87,7 +87,7 @@ function Account() {
           acc.scratch = parseInt(item.scratch, 10);
 
           if (item.id_texture !== "stocked/HD_transparent_picture.png") {
-      
+     
           } else acc.texture_path = "stocked/HD_transparent_picture.png";
 
           return acc;
@@ -95,14 +95,14 @@ function Account() {
 
 
 
-        
-      }).then(() => {dispatch(addColor(object))}
-      )
+        dispatch(addColor(object));
+      });
   };
 
   const [editMode, setEditMode] = useState(false);
   const [editedData, setEditedData] = useState({});
-
+  const [renameMode, setRenameMode] = useState(false)
+  const [newGtrName, setNewGtrName] = useState({})
   let baseData;
   if (loginStatus) {
     baseData = {
@@ -203,7 +203,6 @@ function Account() {
 
 
 
-
   useEffect(() => {
     setUserInfo(userData);
     localStorage.setItem("userInfo", JSON.stringify(userInfo));
@@ -212,7 +211,7 @@ function Account() {
 
 
   const itemTemplate = (item) => {
-  
+    console.log(item)
     return (
       <div className="guitars-all">
         <div
@@ -220,9 +219,9 @@ function Account() {
           onClick={() => handleSelectGuitar(item)}
           value={item.id_guitar}
         >
-          <a href="/">    
-              <div className="gtr-name">{item.name}</div> 
-            {item.thumbnail && (
+       
+              <div className="gtr-name">{item.name} <button className="gtr-thb-rename" onClick={() => prompt('PROUT')}><PencilLine size={32} /></button> </div> 
+           <a href="/">   {item.thumbnail && (
               <img
                 src={path + `${item.thumbnail}.png`}
                 alt={`Guitar ${item.id_guitar}`}
@@ -231,7 +230,7 @@ function Account() {
             )}
    
           </a>
-          <div className="guitar-thb-actions">
+          <div className="guitar-thb-delete">
           <button
             key={item.name}
             className="trash-button"
