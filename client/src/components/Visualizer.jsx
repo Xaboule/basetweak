@@ -163,6 +163,7 @@ function Visualizer({  model, gtrPrice }) {
         const gtrToAdd = {
           id: response.data.id_guitar,
           model : response.data.model,
+          name : response.data.name,
           user: loggedIn.user.id,
           thumbnail: thbid.replace(/[:.]/g, ""),
         }

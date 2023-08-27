@@ -228,7 +228,8 @@ console.log(object)
           onClick={() => handleSelectGuitar(item)}
           value={item.id_guitar}
         >
-          <a href="/">
+          <a href="/">    
+              <div className="gtr-name">{item.name}</div> 
             {item.thumbnail && (
               <img
                 src={path + `${item.thumbnail}.png`}
@@ -236,8 +237,9 @@ console.log(object)
                 className="guitar-thb-img"
               />
             )}
-            {item.name}
+   
           </a>
+          <div className="guitar-thb-actions">
           <button
             key={item.name}
             className="trash-button"
@@ -247,10 +249,10 @@ console.log(object)
               e.preventDefault(), handleDeleteGuitar(item);
             }}
           >
-            <span>
+            <span className="trash-icon">
               <Trash size={26} color={"red"} />
             </span>
-          </button>
+          </button></div>
         </div>
       </div>
     );
