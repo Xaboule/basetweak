@@ -3,17 +3,15 @@ import React from "react";
 import axios from "axios";
 import Visualizer from "./Visualizer";
 import "./css/Selector.css";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 function Selector() {
-
-
   const userData = useSelector((state) => state.user_data.userData);
-  const modelFetched = useSelector((state) => state.guitar_set.colorSet.model)
+  const modelFetched = useSelector((state) => state.guitar_set.colorSet.model);
   const [itemsListFull, setItemsListFull] = useState([]);
   const [guitarsList, setGuitarsList] = useState([]);
 
-  const [model, setModel] = useState('1');
+  const [model, setModel] = useState("1");
   const [changed, setChanged] = useState(false);
   const [gtrPrice, setGtrPrice] = useState(0);
 
@@ -26,7 +24,6 @@ function Selector() {
         setItemsListFull(res.data);
       });
   };
-
 
   function fullPrice() {
     let fullGtrPrice = 0;
@@ -48,20 +45,17 @@ function Selector() {
   }, [model]);
 
   useEffect(() => {
-
-    if( modelFetched != undefined) {
-      setModel(modelFetched)
+    if (modelFetched != undefined) {
+      setModel(modelFetched);
     }
-  }, [])
+  }, []);
 
   const handleModelSelect = (e) => {
     setModel(e.target.value);
-   
-   
+
     getItemsFullGtr();
     setChanged(!changed);
   };
-
 
   return (
     <div className="main-select">

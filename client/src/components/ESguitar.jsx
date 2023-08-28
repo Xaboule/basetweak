@@ -15,13 +15,7 @@ import * as THREE from "three";
 import { useDispatch, useSelector } from "react-redux";
 import { sRGBEncoding } from "three";
 
-function ESguitar({
- 
-  colorList,
-  tilt,
-  pos,
-
-}) {
+function ESguitar({ colorList, tilt, pos }) {
   const ref = useRef();
   const meshRefs = useRef([]);
   const { nodes, materials } = useGLTF("/guitar/ES335UV.glb");
@@ -101,8 +95,6 @@ function ESguitar({
   materials.side.roughness = 0.3;
   materials.neckwood.roughness = 0.3;
 
-
-
   const maple = useTexture("maple.png");
   maple.flipY = false;
   const rosewood = useTexture("rosewood.png");
@@ -159,11 +151,7 @@ function ESguitar({
   return (
     <>
       <group rotation={tilt} ref={ref} position={pos}>
-        <group
-          dispose={null}
-          position={[0, -0.5, 0]}
-          scale={2}
-        >
+        <group dispose={null} position={[0, -0.5, 0]} scale={2}>
           <mesh
             ref={(mesh) => (meshRefs.current[0] = mesh)}
             castShadow

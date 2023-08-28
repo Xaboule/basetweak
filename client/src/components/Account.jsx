@@ -4,8 +4,14 @@ import Registration from "./Register";
 import "./css/account.css";
 
 import { useDispatch, useSelector } from "react-redux";
-import { userOut, userGuitarsSave, userUpdate, userGuitarDelete } from "../features/UserReducer";
-import { PencilLine, SignOut, Trash } from "@phosphor-icons/react";
+import {
+  userOut,
+  userGuitarsSave,
+  userUpdate,
+  userGuitarDelete,
+  userGuitarRename,
+} from "../features/UserReducer";
+import { Check, PencilLine, SignOut, Trash, X } from "@phosphor-icons/react";
 import { addColor, triggerDrop, resetDrop } from "../features/ColorReducer";
 import { Toast } from "primereact/toast";
 import { Carousel } from "primereact/carousel";
@@ -48,7 +54,6 @@ function Account() {
     setUserInfo(userData);
   }, [isAuthenticated]);
 
-
   useEffect(() => {
     if (isAuthenticated) {
       userAuthenticated();
@@ -56,11 +61,11 @@ function Account() {
     }
   }, [isAuthenticated]);
 
-console.log(userGtrs)
+  console.log(userGtrs);
 
   const handleSelectGuitar = async (item) => {
     const gtr = item.id;
-    console.log(item)
+    console.log(item);
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/items/fetchguitarcolors`, {
         params: { gtr: gtr },
@@ -68,18 +73,17 @@ console.log(userGtrs)
       .then((res) => {
         let txPath;
         const fetched = res.data.composition;
-        const fetchedModel = res.data.model[0].model
-  
-        console.log(res.data)
+        const fetchedModel = res.data.model[0].model;
+
+        console.log(res.data);
         const colorObject = {};
-        console.log(fetchedModel)
+        console.log(fetchedModel);
         fetched.forEach((item) => {
           colorObject[item.name] = item.color;
         });
 
         const object = Object.values(fetched).reduce((acc, item) => {
-      
-          acc.model = fetchedModel
+          acc.model = fetchedModel;
           acc[item.name] = item.color;
           acc.id = item.id_guitar;
           acc.gloss = item.gloss;
@@ -87,13 +91,10 @@ console.log(userGtrs)
           acc.scratch = parseInt(item.scratch, 10);
 
           if (item.id_texture !== "stocked/HD_transparent_picture.png") {
-     
           } else acc.texture_path = "stocked/HD_transparent_picture.png";
 
           return acc;
         }, {});
-
-
 
         dispatch(addColor(object));
       });
@@ -101,8 +102,7 @@ console.log(userGtrs)
 
   const [editMode, setEditMode] = useState(false);
   const [editedData, setEditedData] = useState({});
-  const [renameMode, setRenameMode] = useState(false)
-  const [newGtrName, setNewGtrName] = useState({})
+  
   let baseData;
   if (loginStatus) {
     baseData = {
@@ -188,7 +188,7 @@ console.log(userGtrs)
   const handleDeleteGuitar = (item) => {
     const id_guitar = item.id_guitar;
 
-    dispatch(userGuitarDelete(item))
+    dispatch(userGuitarDelete(item));
     axios
       .delete(`${import.meta.env.VITE_BACKEND_URL}/user/deleteguitar`, {
         data: { id_guitar: id_guitar },
@@ -197,11 +197,9 @@ console.log(userGtrs)
         },
       })
       .then((response) => {
-        dispatch(userGuitarDelete(item))
+        dispatch(userGuitarDelete(item));
       });
   };
-
-
 
   useEffect(() => {
     setUserInfo(userData);
@@ -209,9 +207,30 @@ console.log(userGtrs)
     setUserGtrs(userGuitars);
   }, [userInfo, handleDeleteGuitar]);
 
-
   const itemTemplate = (item) => {
-    console.log(item)
+      const [editMode, setEditMode] = useState(false);
+  const [editedName, setEditedName] = useState(item.name);
+
+
+  const handleRenameGuitar = (item) => {
+    console.log(item) 
+    setEditedName(editedName)
+    const id_guitar = item.id_guitar
+    const newname = editedName
+axios.put(`${import.meta.env.VITE_BACKEND_URL}/user/renameguitar`, {
+  data: {  id_guitar, newname }
+}).then(() => {
+// console.log(res)
+  //  setEditMode(false)
+  dispatch(userGuitarRename({id_guitar, editedName}))
+
+})
+  };
+
+  useEffect(() => {
+    setUserGtrs(userGuitars);
+  }, [handleRenameGuitar])
+
     return (
       <div className="guitars-all">
         <div
@@ -219,31 +238,58 @@ console.log(userGtrs)
           onClick={() => handleSelectGuitar(item)}
           value={item.id_guitar}
         >
-       
-              <div className="gtr-name">{item.name} <button className="gtr-thb-rename" onClick={() => prompt('PROUT')}><PencilLine size={32} /></button> </div> 
-           <a href="/">   {item.thumbnail && (
+          {/* <div className="gtr-name"> */}
+       {editMode ? (
+            <div className="gtr-name">
+                 <button className="gtr-thb-rename" onClick={() => setEditMode(false)}>
+                 <X size={32} />
+              </button>
+              <input
+                type="text"
+                value={editedName}
+                onChange={(e) => setEditedName(e.target.value)}
+              />
+              <button className="gtr-thb-rename" onClick={() => {handleRenameGuitar(item),setEditMode(false)}}>
+                <Check size={32} />
+              </button>
+            </div>
+          ) : (
+            <div className="gtr-name">
+              {item.name}{" "}
+              <button
+                className="gtr-thb-rename "
+                onClick={() => setEditMode(true)}
+              >
+                <PencilLine size={32} />
+              </button>{" "}
+            </div>
+          )}
+          {/* </div> */}
+          <a href="/">
+            {" "}
+            {item.thumbnail && (
               <img
                 src={path + `${item.thumbnail}.png`}
                 alt={`Guitar ${item.id_guitar}`}
                 className="guitar-thb-img"
               />
             )}
-   
           </a>
           <div className="guitar-thb-delete">
-          <button
-            key={item.name}
-            className="trash-button"
-            type="button"
-            value={item.id_guitar}
-            onClick={(e) => {
-              e.preventDefault(), handleDeleteGuitar(item);
-            }}
-          >
-            <span className="trash-icon">
-              <Trash size={26} color={"red"} />
-            </span>
-          </button></div>
+            <button
+              key={item.name}
+              className="trash-button"
+              type="button"
+              value={item.id_guitar}
+              onClick={(e) => {
+                e.preventDefault(), handleDeleteGuitar(item);
+              }}
+            >
+              <span className="trash-icon">
+                <Trash size={26} color={"red"} />
+              </span>
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -416,7 +462,7 @@ console.log(userGtrs)
                     label="Confirm"
                     icon="pi pi-exclamation-triangle"
                     accept={accept}
-                    reject={''}
+                    reject={""}
                   />
                   <button
                     id="delete-account"

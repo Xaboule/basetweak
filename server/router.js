@@ -19,6 +19,7 @@ const {
   editUserInfo,
   deleteUserInfo,
   deleteUserGuitar,
+  renameUserGuitar,
 } = require("./controllers/userController");
 const { getItems, getVariation } = require("./controllers/shopController");
 
@@ -44,4 +45,5 @@ router.get("/getUserInfo", userInfo);
 router.put("/user/edit", editUserInfo);
 router.delete("/user/delete", deleteUserInfo);
 router.delete("/user/deleteguitar", deleteUserGuitar);
+router.put("/user/renameguitar", renameUserGuitar)
 module.exports = router;

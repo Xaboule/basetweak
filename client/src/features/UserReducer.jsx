@@ -54,10 +54,22 @@ return { ...state,
     ...state.userData,
     user_guitars: updatedUserGuitars}}
 
+},
+userGuitarRename : (state, action) => {
+  console.log(action.payload)
+  const id_guitar = action.payload.id_guitar
+  const newname = action.payload.editedName
+  const updatedUserGuitars = state.userData.user_guitars.filter((guitar) => guitar.id_guitar == id_guitar ? {...guitar, name: newname} : guitar);
+    console.log(updatedUserGuitars)
+return { ...state,
+  userData: {
+    ...state.userData,
+    user_guitars: updatedUserGuitars}}
+
 }
   }
   
 });
-export const { userIn, userOut, userGuitarsSave, userUpdate, userGuitarDelete } = userSlice.actions;
+export const { userIn, userOut, userGuitarsSave, userUpdate, userGuitarDelete, userGuitarRename } = userSlice.actions;
 
 export default userSlice.reducer;

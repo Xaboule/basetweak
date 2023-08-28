@@ -1,4 +1,3 @@
-
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
@@ -29,28 +28,26 @@ const register = (req, res) => {
       [firstname, lastname, email, username, hash],
       (err, result) => {
         console.log(err);
-     
-      // Get the ID of the inserted row
-    const userId = result.insertId; 
-    db.query(
-      "INSERT INTO user_info (id_user, number, street, postal, city, country, phone) VALUES (?, ?,?,?,?,?,?)",
-      [userId, number, street, postal, city, country, phone],
-      (err2, result2) => {
-        if (err2) {
-          console.error(err2);
-          return res.sendStatus(500); // Handle the error appropriately
-        }
 
-        // Successfully inserted into both tables
-        res.sendStatus(200);
+        // Get the ID of the inserted row
+        const userId = result.insertId;
+        db.query(
+          "INSERT INTO user_info (id_user, number, street, postal, city, country, phone) VALUES (?, ?,?,?,?,?,?)",
+          [userId, number, street, postal, city, country, phone],
+          (err2, result2) => {
+            if (err2) {
+              console.error(err2);
+              return res.sendStatus(500); // Handle the error appropriately
+            }
+
+            // Successfully inserted into both tables
+            res.sendStatus(200);
+          }
+        );
       }
-    );
-  }
     );
   });
 };
-
-
 
 const isUserAuth = (req, res, next) => {
   const token = req.headers["x-access-token"];
@@ -72,9 +69,6 @@ const isUserAuth = (req, res, next) => {
   }
 };
 
-
-
-
 const loginGet = (req, res) => {
   if (req.session.user) {
     res.send({ loggedIn: true, user: req.session.user });
@@ -82,8 +76,6 @@ const loginGet = (req, res) => {
     res.send({ loggedIn: false });
   }
 };
-
-
 
 const loginPost = (req, res) => {
   const username = req.body.username;
@@ -204,67 +196,105 @@ const deleteUserInfo = (req, res) => {
   const user = req.body.user;
 
   // Delete from user table
-  db.query('DELETE FROM user_guitar WHERE id_user = ?', [user], (err1, result1) => {
-    if (err1) {
-      console.error(err1);
-      res.status(500).send("An error occurred.");
-      return;
-    }
-
-    // Delete from user_guitar table
-    db.query('DELETE FROM user_info WHERE id_user = ?', [user], (err2, result2) => {
-      if (err2) {
-        console.error(err2);
+  db.query(
+    "DELETE FROM user_guitar WHERE id_user = ?",
+    [user],
+    (err1, result1) => {
+      if (err1) {
+        console.error(err1);
         res.status(500).send("An error occurred.");
         return;
       }
 
-      // Delete from user_info table
-      db.query('DELETE FROM user WHERE id = ?', [user], (err3, result3) => {
-        if (err3) {
-          console.error(err3);
-          res.status(500).send("An error occurred.");
-          return;
+      // Delete from user_guitar table
+      db.query(
+        "DELETE FROM user_info WHERE id_user = ?",
+        [user],
+        (err2, result2) => {
+          if (err2) {
+            console.error(err2);
+            res.status(500).send("An error occurred.");
+            return;
+          }
+
+          // Delete from user_info table
+          db.query("DELETE FROM user WHERE id = ?", [user], (err3, result3) => {
+            if (err3) {
+              console.error(err3);
+              res.status(500).send("An error occurred.");
+              return;
+            }
+            // Successfully deleted from all tables
+            res.sendStatus(200);
+          });
         }
-        // Successfully deleted from all tables
-        res.sendStatus(200);
-      });
-    });
-  });
+      );
+    }
+  );
 };
 
 const deleteUserGuitar = (req, res) => {
-  const id_guitar = req.body.id_guitar
-  const sqlDeleteGuitar = ``
-  db.query('DELETE FROM composition WHERE id_guitar = ?', [id_guitar], (err1, result1) => {
-    if (err1) {
-      console.error(err1);
-      res.status(500).send("An error occurred.");
-      return;
-    }
-
-    // Delete from user_guitar table
-    db.query('DELETE FROM user_guitar WHERE id_guitar = ?', [id_guitar], (err2, result2) => {
-      if (err2) {
-        console.error(err2);
+  const id_guitar = req.body.id_guitar;
+  const sqlDeleteGuitar = ``;
+  db.query(
+    "DELETE FROM composition WHERE id_guitar = ?",
+    [id_guitar],
+    (err1, result1) => {
+      if (err1) {
+        console.error(err1);
         res.status(500).send("An error occurred.");
         return;
       }
 
-      // Delete from user_info table
-      db.query('DELETE FROM guitar WHERE id = ?', [id_guitar], (err3, result3) => {
-        if (err3) {
-          console.error(err3);
-          res.status(500).send("An error occurred.");
-          return;
-        }
-        // Successfully deleted from all tables
-        res.sendStatus(200);
-      });
-    });
-  });
+      // Delete from user_guitar table
+      db.query(
+        "DELETE FROM user_guitar WHERE id_guitar = ?",
+        [id_guitar],
+        (err2, result2) => {
+          if (err2) {
+            console.error(err2);
+            res.status(500).send("An error occurred.");
+            return;
+          }
 
+          // Delete from user_info table
+          db.query(
+            "DELETE FROM guitar WHERE id = ?",
+            [id_guitar],
+            (err3, result3) => {
+              if (err3) {
+                console.error(err3);
+                res.status(500).send("An error occurred.");
+                return;
+              }
+              // Successfully deleted from all tables
+              res.sendStatus(200);
+            }
+          );
+        }
+      );
+    }
+  );
+};
+
+
+
+const renameUserGuitar = (req,res) => {
+  // console.log(req.body)
+const guitar_id = req.body.data.id_guitar
+const new_name = req.body.data.newname
+  sqlUpdateGuitarName = `UPDATE guitar SET name = ? WHERE id = ? `;
+db.query(sqlUpdateGuitarName, [new_name , guitar_id], (err, result)=>
+{if (err) {
+  console.error("Error:", err);
+  // return res.status(500).send("An error occurred.");
 }
+// res.send({ userResult, userInfoResult });
+
+console.log(result)
+},
+res.sendStatus(200)
+)}
 
 module.exports = {
   register,
@@ -274,5 +304,6 @@ module.exports = {
   userInfo,
   editUserInfo,
   deleteUserInfo,
-  deleteUserGuitar
+  deleteUserGuitar,
+  renameUserGuitar
 };
