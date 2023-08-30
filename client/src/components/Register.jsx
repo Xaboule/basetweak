@@ -32,6 +32,21 @@ export default function Registration({
 
   const dispatch = useDispatch();
 
+  const resetInputs = () => {
+    console.log("RESET")
+setFirstnameReg("");
+setLastnameReg("");
+setEmailReg("");
+setUsernameReg("");
+setPasswordReg("");
+setNumberReg("");
+setStreetReg("");
+setPostalReg("");
+setCityReg("");
+setCountryReg("");
+setPhoneReg("")}
+
+
   const register = () => {
     Axios.post(`${import.meta.env.VITE_BACKEND_URL}/register`, {
       firstname: firstnameReg,
@@ -45,8 +60,9 @@ export default function Registration({
       city: cityReg,
       country: countryReg,
       phone: phoneReg,
-    }).then(userAuthenticated);
+    }).then(userAuthenticated)
   };
+
 
   const userAuthenticated = () => {
     Axios.get(`${import.meta.env.VITE_BACKEND_URL}/isUserAuth`, {
@@ -55,6 +71,10 @@ export default function Registration({
       },
     });
   };
+  useEffect(() => {
+resetInputs()
+  }, [userAuthenticated])
+
 
   const login = () => {
     Axios.post(`${import.meta.env.VITE_BACKEND_URL}/login`, {
@@ -70,7 +90,6 @@ export default function Registration({
           const user_info = response.data.otherData[0];
           const user_guitars = response.data.guitars;
           localStorage.setItem("token", response.data.token);
-  
           setLoginStatus(true);
           dispatch(userIn({ user, user_info, user_guitars }));
           loginContext();
@@ -219,7 +238,7 @@ export default function Registration({
                 />
               </div>
             </div>
-            <button className="login-register-button" onClick={register}>
+            <button className="login-register-button" onClick={() => register}>
               Register
             </button>
           </div>{" "}

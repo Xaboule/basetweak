@@ -136,7 +136,6 @@ const loginPost = (req, res) => {
         });
       } else {
         res.json({ auth: false, message: "User doesn't exist" });
-        // res.send({ message: "User doesn't exist" });
       }
     }
   );
@@ -280,7 +279,7 @@ const deleteUserGuitar = (req, res) => {
 
 
 const renameUserGuitar = (req,res) => {
-  // console.log(req.body)
+
 const guitar_id = req.body.data.id_guitar
 const new_name = req.body.data.newname
   sqlUpdateGuitarName = `UPDATE guitar SET name = ? WHERE id = ? `;
@@ -291,7 +290,6 @@ db.query(sqlUpdateGuitarName, [new_name , guitar_id], (err, result)=>
 }
 // res.send({ userResult, userInfoResult });
 
-console.log(result)
 },
 res.sendStatus(200)
 )}

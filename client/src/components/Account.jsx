@@ -61,11 +61,11 @@ function Account() {
     }
   }, [isAuthenticated]);
 
-  console.log(userGtrs);
+
 
   const handleSelectGuitar = async (item) => {
     const gtr = item.id;
-    console.log(item);
+
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/items/fetchguitarcolors`, {
         params: { gtr: gtr },
