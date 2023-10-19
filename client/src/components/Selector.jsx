@@ -4,6 +4,8 @@ import axios from "axios";
 import Visualizer from "./Visualizer";
 import "./css/Selector.css";
 import {  useSelector } from "react-redux";
+import { Loader } from "@react-three/drei";
+import { styles } from "./misc/loaderStyle";
 
 function Selector() {
 
@@ -62,7 +64,7 @@ function Selector() {
     setChanged(!changed);
   };
 
-  console.log(model)
+
   return (
     <div className="main-select">
       <div className="buttonselect">
@@ -85,6 +87,9 @@ function Selector() {
           alt="Telecaster"
         ></button>
       </div>
+        <Loader className="loader" containerStyles={{...styles.container}}
+        dataStyles={{...styles.data}}
+        />
 
       <div className="visu-sum">
         <Visualizer

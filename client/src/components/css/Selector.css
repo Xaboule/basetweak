@@ -1,3 +1,10 @@
+
+@font-face {
+  font-family: Quentin;
+  src: url('../misc/Quentin.otf');
+}
+
+
 /* Desktops and laptops ----------- */
 @media only screen and (min-width: 1224px) {
   /* Styles */
