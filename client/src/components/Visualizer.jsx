@@ -9,7 +9,7 @@ import React, {
 
 import "./css/Visualizer.css";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, ContactShadows, Text } from "@react-three/drei";
+import { OrbitControls, ContactShadows, Text, Loader } from "@react-three/drei";
 import { Perf } from "r3f-perf";
 import axios from "axios";
 import * as THREE from "three";
@@ -297,6 +297,8 @@ function Visualizer({  model, gtrPrice }) {
       <div className="visualizer">
         <div></div>
         <div className="canvas" style={{ display: "flex" }}>
+          <Suspense fallback={null} >
+
           <Canvas
             ref={ref}
             fallback={null}
@@ -312,14 +314,14 @@ function Visualizer({  model, gtrPrice }) {
               // precision: "lowp",
               // powerPreference: "low-power"
             }}
-          >
+            >
             <OrbitControls
               ref={orbCam}
               target={mobSize ? [0, 2, 0] : [0, 0, 0]}
               enableZoom={false}
               enableDamping={false}
               position0={[0, 0, 3]}
-            />
+              />
 <Background/>
 
 <fog attach="fog" color="#efefef" near={1} far={15} />
@@ -334,7 +336,7 @@ function Visualizer({  model, gtrPrice }) {
                 far={5}
                 frames={100}
                 resolution={512}
-              />
+                />
             </>
 
             <MotionConfig
@@ -345,7 +347,7 @@ function Visualizer({  model, gtrPrice }) {
                 repeat: 0,
                 repeatDelay: 1,
               }}
-            >
+              >
               <motion.group animate={model === "1" ? "es335" : "tele"}>
                 <motion.group
                   variants={{
@@ -355,7 +357,7 @@ function Visualizer({  model, gtrPrice }) {
                       scale: 0,
                     },
                   }}
-                >
+                  >
                   <ESguitar
                     setColorList={setColorList}
                     colorList={colorList}
@@ -365,7 +367,7 @@ function Visualizer({  model, gtrPrice }) {
                     pos={mobSize ? [0, 1, 0] : [-1, -0.5, -0.3]}
                     files={files}
                     selectedParts={selectedParts}
-                  />
+                    />
                 </motion.group>
 
                 <motion.group
@@ -373,7 +375,7 @@ function Visualizer({  model, gtrPrice }) {
                     es335: { x: -10, scale: 0, visibility: 0 },
                     tele: {},
                   }}
-                >
+                  >
                   <Teleguitar
                     setColorList={setColorList}
                     colorList={colorList}
@@ -383,13 +385,15 @@ function Visualizer({  model, gtrPrice }) {
                     pos={mobSize ? [0, 1, 0] : [-1, -0.8, -0.4]}
                     files={files}
                     selectedParts={selectedParts}
-                  />
+                    />
                 </motion.group>
               </motion.group>
             </MotionConfig>
             {/* <Perf deepAnalyze={true} position={"top-left"} /> */}
             {gtrName && <GuitarName />}
           </Canvas>
+                    </Suspense>
+         
           {model == 1 && (
             <TweakerES
               colorList={colorList}
