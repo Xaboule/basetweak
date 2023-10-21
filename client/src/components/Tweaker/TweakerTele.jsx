@@ -16,7 +16,7 @@ import Draggable from "react-draggable";
 import dragIcon from "../../assets/drag.svg";
 import resetIcon from "../../assets/reset.svg";
 import MyDropzone from "../Dropzone";
-import { ArrowBendDoubleUpLeft, StackSimple } from "@phosphor-icons/react";
+import { ArrowBendDoubleUpLeft, Coins, PiggyBank, StackSimple } from "@phosphor-icons/react";
 
 function TweakerTele({
   colorList,
@@ -326,7 +326,16 @@ useEffect(() => {
             </Button>
           </div>{" "}
           <div  className="gtr-price-full">
-            Total:<div className="price-number">&nbsp;{gtrPriceFullVar}€</div>
+          <p>Total: </p>
+                {/* <div className="price-number">
+                  &nbsp;{gtrPriceFullVar}
+                  </div>
+                <span id="€">€</span> */}
+                <div className="piggybank">
+
+                <PiggyBank size={64} weight="thin"/>
+                <Coins size={32}/>
+                </div>
           </div>
         </div>
       </Draggable>
