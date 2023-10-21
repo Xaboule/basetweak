@@ -147,7 +147,13 @@ height: 25vh;
   }
 }
 
-
+.footer > #links{
+  scale: 0.7;
+  /* border: red solid 2px; */
+  width: 20vw;
+  display: flex;
+  justify-content: space-around;
+}
 
 
 /* Smartphones (portrait and landscape) ----------- */

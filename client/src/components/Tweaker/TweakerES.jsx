@@ -24,7 +24,10 @@ import silverIcon from "../../assets/img/Silver.jpg";
 import { ShopContext } from "../../context/shop-context";
 import {
   ArrowBendDoubleUpLeft,
+  Coin,
+  Coins,
   Palette,
+  PiggyBank,
   StackSimple,
   X,
 } from "@phosphor-icons/react";
@@ -458,8 +461,15 @@ function TweakerES({
 
               <div onClick={addGtrToCart} className="gtr-price-full">
                 <p>Total: </p>
-                <div className="price-number">&nbsp;{gtrPriceFullVar}</div>
-                <span id="€">€</span>
+                {/* <div className="price-number">
+                  &nbsp;{gtrPriceFullVar}
+                  </div>
+                <span id="€">€</span> */}
+                <div className="piggybank">
+
+                <PiggyBank size={64} weight="thin"/>
+                <Coins size={32}/>
+                </div>
               </div>
               <button onClick={addGtrToCart} className="addtocart">
                 Add to cart
